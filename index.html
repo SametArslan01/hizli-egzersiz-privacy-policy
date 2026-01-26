@@ -10,9 +10,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-        .header-description {
-    color: #ffffff;
-        } 
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
@@ -47,6 +44,10 @@
             margin: 0 auto;
         }
         
+        .header-description {
+            color: #ffffff;
+        }
+
         .update-badge {
             display: inline-block;
             background: rgba(255,255,255,0.2);
@@ -189,6 +190,42 @@
             font-size: 0.9rem;
         }
         
+        /* New Styles for Routing & Selector */
+        .hidden {
+            display: none !important;
+        }
+
+        #app-selector {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        #app-selector p {
+            color: white;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .app-btn {
+            background: rgba(255,255,255,0.9);
+            color: #2d5a3d;
+            border: none;
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .app-btn:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
         @media (max-width: 600px) {
             header {
                 padding: 40px 20px;
@@ -206,211 +243,345 @@
             h2 {
                 font-size: 1.2rem;
             }
+
+            .app-btn {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <h1>🔒 Gizlilik Politikası ve Kullanım Koşulları</h1>
-        <p class="header-description">Bu sayfa, Samet Arslan tarafından geliştirilen mobil uygulamalar için geçerli olan Gizlilik Politikası ve Kullanım Koşullarını içermektedir.</p>
-        <div class="update-badge">📅 Son Güncelleme: 16 Ocak 2026</div>
+        <p class="header-description" id="header-desc">Bu sayfa, Samet Arslan tarafından geliştirilen mobil uygulamalar için geçerli olan Gizlilik Politikası ve Kullanım Koşullarını içermektedir.</p>
+
+        <!-- App Selector (Initially Hidden) -->
+        <div id="app-selector" class="hidden">
+            <p>Hangi uygulama için görüntülemek istiyorsunuz?</p>
+            <button class="app-btn" onclick="selectApp('masal')">Masal Atölyesi</button>
+            <button class="app-btn" onclick="selectApp('ilac')">İlaç Saatim</button>
+        </div>
+
+        <div class="update-badge">📅 Son Güncelleme: 16 Şubat 2025</div>
     </header>
     
     <div class="container">
         <main>
-            <!-- Uygulamalar -->
-            <section>
-                <p>Bu uygulamalar arasında (ancak bunlarla sınırlı olmamak üzere) aşağıdakiler yer alabilir:</p>
-                <ul class="app-list">
-                    <li>İlaç Saatim</li>
-                    <li>Hızlı Egzersiz</li>
-                    <li>Samet Arslan tarafından yayınlanan diğer mobil uygulamalar</li>
-                </ul>
-            </section>
-            
-            <!-- Geliştirici Bilgileri -->
-            <section>
-                <h2>👤 Geliştirici Bilgileri</h2>
-                <div class="developer-info">
-                    <p><strong>Geliştirici:</strong> Samet Arslan</p>
-                    <p><strong>İletişim E-posta:</strong> smtrlsn84@gmail.com</p>
-                    <p><strong>Yayın Platformu:</strong> Google Play Store</p>
-                </div>
-            </section>
-            
-            <!-- Toplanan Veriler -->
-            <section>
-                <h2>📊 Toplanan Veriler</h2>
-                <p>Uygulamalar, yalnızca uygulama işlevselliğini sağlamak amacıyla sınırlı veri toplar.</p>
+            <!-- Content: İlaç Saatim (Existing Content) -->
+            <div id="content-ilac" class="hidden">
+                <!-- Uygulamalar -->
+                <section>
+                    <p>Bu uygulamalar arasında (ancak bunlarla sınırlı olmamak üzere) aşağıdakiler yer alabilir:</p>
+                    <ul class="app-list">
+                        <li>İlaç Saatim</li>
+                        <li>Hızlı Egzersiz</li>
+                        <li>Samet Arslan tarafından yayınlanan diğer mobil uygulamalar</li>
+                    </ul>
+                </section>
                 
-                <h3>2.1 Otomatik Olarak Toplanan Veriler</h3>
-                <ul>
-                    <li>Anonim Kullanıcı Kimliği (Firebase Authentication – anonim giriş)</li>
-                    <li>Bildirim Token'ı (FCM Token)</li>
-                    <li>Cihaz Bilgisi (işletim sistemi, platform türü)</li>
-                    <li>Son aktif olma zamanı</li>
-                </ul>
+                <!-- Geliştirici Bilgileri -->
+                <section>
+                    <h2>👤 Geliştirici Bilgileri</h2>
+                    <div class="developer-info">
+                        <p><strong>Geliştirici:</strong> Samet Arslan</p>
+                        <p><strong>İletişim E-posta:</strong> smtrlsn84@gmail.com</p>
+                        <p><strong>Yayın Platformu:</strong> Google Play Store</p>
+                    </div>
+                </section>
                 
-                <h3>2.2 Kullanıcı Tarafından Girilen Veriler</h3>
-                <p>Uygulamaya bağlı olarak:</p>
-                <ul>
-                    <li>İlaç adları, dozaj bilgileri, hatırlatma saatleri</li>
-                    <li>Egzersiz süreleri veya tercihler</li>
-                    <li>Kullanıcı tarafından manuel girilen diğer içerikler</li>
-                </ul>
+                <!-- Toplanan Veriler -->
+                <section>
+                    <h2>📊 Toplanan Veriler</h2>
+                    <p>Uygulamalar, yalnızca uygulama işlevselliğini sağlamak amacıyla sınırlı veri toplar.</p>
+
+                    <h3>2.1 Otomatik Olarak Toplanan Veriler</h3>
+                    <ul>
+                        <li>Anonim Kullanıcı Kimliği (Firebase Authentication – anonim giriş)</li>
+                        <li>Bildirim Token'ı (FCM Token)</li>
+                        <li>Cihaz Bilgisi (işletim sistemi, platform türü)</li>
+                        <li>Son aktif olma zamanı</li>
+                    </ul>
+
+                    <h3>2.2 Kullanıcı Tarafından Girilen Veriler</h3>
+                    <p>Uygulamaya bağlı olarak:</p>
+                    <ul>
+                        <li>İlaç adları, dozaj bilgileri, hatırlatma saatleri</li>
+                        <li>Egzersiz süreleri veya tercihler</li>
+                        <li>Kullanıcı tarafından manuel girilen diğer içerikler</li>
+                    </ul>
+
+                    <div class="highlight-box info">
+                        <strong>❗ Önemli:</strong> Bu veriler kimliğinizi doğrudan belirlemez ve gerçek ad, T.C. kimlik numarası, adres gibi bilgiler istenmez.
+                    </div>
+                </section>
                 
-                <div class="highlight-box info">
-                    <strong>❗ Önemli:</strong> Bu veriler kimliğinizi doğrudan belirlemez ve gerçek ad, T.C. kimlik numarası, adres gibi bilgiler istenmez.
-                </div>
-            </section>
-            
-            <!-- Verilerin Kullanım Amacı -->
-            <section>
-                <h2>🎯 Verilerin Kullanım Amacı</h2>
-                <p>Toplanan veriler yalnızca aşağıdaki amaçlarla kullanılır:</p>
-                <ul>
-                    <li>Hatırlatma bildirimlerinin gönderilmesi</li>
-                    <li>Uygulama özelliklerinin çalıştırılması</li>
-                    <li>Kullanıcı deneyiminin iyileştirilmesi</li>
-                </ul>
+                <!-- Verilerin Kullanım Amacı -->
+                <section>
+                    <h2>🎯 Verilerin Kullanım Amacı</h2>
+                    <p>Toplanan veriler yalnızca aşağıdaki amaçlarla kullanılır:</p>
+                    <ul>
+                        <li>Hatırlatma bildirimlerinin gönderilmesi</li>
+                        <li>Uygulama özelliklerinin çalıştırılması</li>
+                        <li>Kullanıcı deneyiminin iyileştirilmesi</li>
+                    </ul>
+
+                    <p><strong>Verileriniz:</strong></p>
+                    <ul class="no-list">
+                        <li>❌ Reklam amacıyla kullanılmaz</li>
+                        <li>❌ Üçüncü taraflara satılmaz</li>
+                        <li>❌ Pazarlama veya profil çıkarma için paylaşılmaz</li>
+                    </ul>
+                </section>
                 
-                <p><strong>Verileriniz:</strong></p>
-                <ul class="no-list">
-                    <li>❌ Reklam amacıyla kullanılmaz</li>
-                    <li>❌ Üçüncü taraflara satılmaz</li>
-                    <li>❌ Pazarlama veya profil çıkarma için paylaşılmaz</li>
-                </ul>
-            </section>
-            
-            <!-- Verilerin Saklanması -->
-            <section>
-                <h2>🔐 Verilerin Saklanması</h2>
-                <ul>
-                    <li>Veriler, Google Firebase altyapısında güvenli şekilde saklanır</li>
-                    <li>Veri iletimi şifreli bağlantılar (TLS) üzerinden yapılır</li>
-                    <li>Sunucular Google'ın uluslararası güvenlik standartlarına uygundur</li>
-                </ul>
-            </section>
-            
-            <!-- Veri Saklama Süresi -->
-            <section>
-                <h2>⏱️ Veri Saklama Süresi</h2>
-                <ul>
-                    <li><strong>Aktif kullanıcılar:</strong> Uygulama kullanıldığı sürece</li>
-                    <li><strong>Pasif kullanıcılar:</strong>
-                        <ul>
-                            <li>Bildirimleri kapatan</li>
-                            <li>30 gün boyunca uygulamayı kullanmayan kullanıcıların verileri otomatik olarak silinebilir</li>
-                        </ul>
-                    </li>
-                </ul>
-            </section>
-            
-            <!-- Veri Silme Hakkı -->
-            <section>
-                <h2>🗑️ Veri Silme Hakkı (KVKK & GDPR)</h2>
-                <p>Kullanıcı olarak aşağıdaki haklara sahipsiniz:</p>
-                <ul>
-                    <li>Uygulama içinden tüm verilerinizi silebilirsiniz</li>
-                    <li>Uygulamayı kaldırarak veri silme sürecini başlatabilirsiniz</li>
-                    <li>Aşağıdaki e-posta adresine yazarak verilerinizin silinmesini talep edebilirsiniz</li>
-                </ul>
+                <!-- Verilerin Saklanması -->
+                <section>
+                    <h2>🔐 Verilerin Saklanması</h2>
+                    <ul>
+                        <li>Veriler, Google Firebase altyapısında güvenli şekilde saklanır</li>
+                        <li>Veri iletimi şifreli bağlantılar (TLS) üzerinden yapılır</li>
+                        <li>Sunucular Google'ın uluslararası güvenlik standartlarına uygundur</li>
+                    </ul>
+                </section>
                 
-                <div class="contact-box">
-                    📧 <strong>İletişim:</strong> <a href="mailto:smtrlsn84@gmail.com">smtrlsn84@gmail.com</a>
-                </div>
-            </section>
-            
-            <!-- Bildirimler -->
-            <section>
-                <h2>🔔 Bildirimler</h2>
-                <ul>
-                    <li>Uygulamalar, yalnızca kullanıcı onayıyla bildirim gönderir</li>
-                    <li>Bildirimler hayati veya acil tıbbi uyarı niteliği taşımaz</li>
-                    <li>Bildirimler Firebase Cloud Messaging (FCM) üzerinden iletilir</li>
-                </ul>
-            </section>
-            
-            <!-- Tıbbi Sorumluluk Reddi -->
-            <section>
-                <h2>⚠️ Tıbbi Sorumluluk Reddi</h2>
-                <div class="highlight-box danger">
-                    <strong>Bu uygulamalar TIBBİ TAVSİYE SAĞLAMAZ.</strong>
-                </div>
-                <ul>
-                    <li>Teşhis, tedavi veya reçete yerine geçmez</li>
-                    <li>Yalnızca hatırlatma ve bilgilendirme amaçlıdır</li>
-                    <li>Sağlıkla ilgili tüm kararlar için doktorunuza danışmalısınız</li>
-                </ul>
-            </section>
-            
-            <!-- Çocukların Gizliliği -->
-            <section>
-                <h2>👶 Çocukların Gizliliği</h2>
-                <ul>
-                    <li>Uygulamalar 13 yaş altı çocuklara yönelik değildir</li>
-                    <li>Bilerek çocuklardan kişisel veri toplanmaz</li>
-                </ul>
-            </section>
-            
-            <!-- Kullanım Koşulları -->
-            <section>
-                <h2>📜 Kullanım Koşulları</h2>
+                <!-- Veri Saklama Süresi -->
+                <section>
+                    <h2>⏱️ Veri Saklama Süresi</h2>
+                    <ul>
+                        <li><strong>Aktif kullanıcılar:</strong> Uygulama kullanıldığı sürece</li>
+                        <li><strong>Pasif kullanıcılar:</strong>
+                            <ul>
+                                <li>Bildirimleri kapatan</li>
+                                <li>30 gün boyunca uygulamayı kullanmayan kullanıcıların verileri otomatik olarak silinebilir</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
                 
-                <h3>10. Hizmet Tanımı</h3>
-                <p>Uygulamalar, kullanıcıların günlük alışkanlıklarını (ilaç, egzersiz vb.) takip etmelerine yardımcı olmak amacıyla sunulmaktadır.</p>
+                <!-- Veri Silme Hakkı -->
+                <section>
+                    <h2>🗑️ Veri Silme Hakkı (KVKK & GDPR)</h2>
+                    <p>Kullanıcı olarak aşağıdaki haklara sahipsiniz:</p>
+                    <ul>
+                        <li>Uygulama içinden tüm verilerinizi silebilirsiniz</li>
+                        <li>Uygulamayı kaldırarak veri silme sürecini başlatabilirsiniz</li>
+                        <li>Aşağıdaki e-posta adresine yazarak verilerinizin silinmesini talep edebilirsiniz</li>
+                    </ul>
+
+                    <div class="contact-box">
+                        📧 <strong>İletişim:</strong> <a href="mailto:smtrlsn84@gmail.com">smtrlsn84@gmail.com</a>
+                    </div>
+                </section>
                 
-                <h3>11. Kullanıcı Sorumlulukları</h3>
-                <p>Kullanıcı olarak:</p>
-                <ul>
-                    <li>Girilen bilgilerin doğruluğundan siz sorumlusunuz</li>
-                    <li>Bildirimlere %100 güvenerek kritik kararlar almamanız önerilir</li>
-                    <li>Uygulamayı yasal ve etik çerçevede kullanmalısınız</li>
-                </ul>
+                <!-- Bildirimler -->
+                <section>
+                    <h2>🔔 Bildirimler</h2>
+                    <ul>
+                        <li>Uygulamalar, yalnızca kullanıcı onayıyla bildirim gönderir</li>
+                        <li>Bildirimler hayati veya acil tıbbi uyarı niteliği taşımaz</li>
+                        <li>Bildirimler Firebase Cloud Messaging (FCM) üzerinden iletilir</li>
+                    </ul>
+                </section>
                 
-                <h3>12. Sorumluluk Sınırlaması</h3>
-                <p>Samet Arslan:</p>
-                <ul>
-                    <li>Bildirimlerin gecikmesi veya iletilememesinden</li>
-                    <li>Yanlış kullanıcı girdilerinden</li>
-                    <li>Cihaz, işletim sistemi veya ağ kaynaklı sorunlardan</li>
-                    <li>Veri kaybından</li>
-                </ul>
-                <p>sorumlu tutulamaz.</p>
-                <p><em>Uygulamalar "olduğu gibi" sunulmaktadır.</em></p>
+                <!-- Tıbbi Sorumluluk Reddi -->
+                <section>
+                    <h2>⚠️ Tıbbi Sorumluluk Reddi</h2>
+                    <div class="highlight-box danger">
+                        <strong>Bu uygulamalar TIBBİ TAVSİYE SAĞLAMAZ.</strong>
+                    </div>
+                    <ul>
+                        <li>Teşhis, tedavi veya reçete yerine geçmez</li>
+                        <li>Yalnızca hatırlatma ve bilgilendirme amaçlıdır</li>
+                        <li>Sağlıkla ilgili tüm kararlar için doktorunuza danışmalısınız</li>
+                    </ul>
+                </section>
                 
-                <h3>13. Hizmette Değişiklikler</h3>
-                <ul>
-                    <li>Uygulama özellikleri zamanla değiştirilebilir</li>
-                    <li>Hizmet geçici olarak durdurulabilir</li>
-                    <li>Koşullar güncellendiğinde bu sayfa üzerinden duyurulur</li>
-                </ul>
-            </section>
-            
-            <!-- İletişim -->
-            <section>
-                <h2>📧 İletişim</h2>
-                <p>Gizlilik, veri veya kullanım koşulları ile ilgili her türlü soru için:</p>
-                <div class="contact-box">
-                    📧 <strong>E-posta:</strong> <a href="mailto:smtrlsn84@gmail.com">smtrlsn84@gmail.com</a>
-                </div>
-            </section>
-            
-            <!-- Kabul -->
-            <section>
-                <h2>✅ Kabul</h2>
-                <p>Uygulamaları kullanarak:</p>
-                <ul>
-                    <li>Bu gizlilik politikasını</li>
-                    <li>Kullanım koşullarını</li>
-                </ul>
-                <p>kabul etmiş sayılırsınız.</p>
-            </section>
+                <!-- Çocukların Gizliliği -->
+                <section>
+                    <h2>👶 Çocukların Gizliliği</h2>
+                    <ul>
+                        <li>Uygulamalar 13 yaş altı çocuklara yönelik değildir</li>
+                        <li>Bilerek çocuklardan kişisel veri toplanmaz</li>
+                    </ul>
+                </section>
+
+                <!-- Kullanım Koşulları -->
+                <section>
+                    <h2>📜 Kullanım Koşulları</h2>
+
+                    <h3>10. Hizmet Tanımı</h3>
+                    <p>Uygulamalar, kullanıcıların günlük alışkanlıklarını (ilaç, egzersiz vb.) takip etmelerine yardımcı olmak amacıyla sunulmaktadır.</p>
+
+                    <h3>11. Kullanıcı Sorumlulukları</h3>
+                    <p>Kullanıcı olarak:</p>
+                    <ul>
+                        <li>Girilen bilgilerin doğruluğundan siz sorumlusunuz</li>
+                        <li>Bildirimlere %100 güvenerek kritik kararlar almamanız önerilir</li>
+                        <li>Uygulamayı yasal ve etik çerçevede kullanmalısınız</li>
+                    </ul>
+
+                    <h3>12. Sorumluluk Sınırlaması</h3>
+                    <p>Samet Arslan:</p>
+                    <ul>
+                        <li>Bildirimlerin gecikmesi veya iletilememesinden</li>
+                        <li>Yanlış kullanıcı girdilerinden</li>
+                        <li>Cihaz, işletim sistemi veya ağ kaynaklı sorunlardan</li>
+                        <li>Veri kaybından</li>
+                    </ul>
+                    <p>sorumlu tutulamaz.</p>
+                    <p><em>Uygulamalar "olduğu gibi" sunulmaktadır.</em></p>
+
+                    <h3>13. Hizmette Değişiklikler</h3>
+                    <ul>
+                        <li>Uygulama özellikleri zamanla değiştirilebilir</li>
+                        <li>Hizmet geçici olarak durdurulabilir</li>
+                        <li>Koşullar güncellendiğinde bu sayfa üzerinden duyurulur</li>
+                    </ul>
+                </section>
+
+                <!-- İletişim -->
+                <section>
+                    <h2>📧 İletişim</h2>
+                    <p>Gizlilik, veri veya kullanım koşulları ile ilgili her türlü soru için:</p>
+                    <div class="contact-box">
+                        📧 <strong>E-posta:</strong> <a href="mailto:smtrlsn84@gmail.com">smtrlsn84@gmail.com</a>
+                    </div>
+                </section>
+
+                <!-- Kabul -->
+                <section>
+                    <h2>✅ Kabul</h2>
+                    <p>Uygulamaları kullanarak:</p>
+                    <ul>
+                        <li>Bu gizlilik politikasını</li>
+                        <li>Kullanım koşullarını</li>
+                    </ul>
+                    <p>kabul etmiş sayılırsınız.</p>
+                </section>
+            </div>
+
+            <!-- Content: Masal Atölyesi (New Content) -->
+            <div id="content-masal" class="hidden">
+                <section>
+                    <h2>📖 Masal Atölyesi Hakkında</h2>
+                    <p>Masal Atölyesi, çocukların ve ebeveynlerin hayal güçlerini kullanarak kişiselleştirilmiş masallar oluşturmasını sağlayan güvenli ve eğlenceli bir uygulamadır.</p>
+                </section>
+
+                <section>
+                    <h2>👤 Geliştirici Bilgileri</h2>
+                    <div class="developer-info">
+                        <p><strong>Geliştirici:</strong> Samet Arslan</p>
+                        <p><strong>İletişim E-posta:</strong> smtrlsn84@gmail.com</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>📊 Toplanan Veriler ve Kullanım</h2>
+                    <p>Uygulama, temel işlevleri yerine getirmek için minimum düzeyde veri toplar:</p>
+                    <ul>
+                        <li><strong>Anonim Kullanıcı Kimliği:</strong> Size özel masalları ve tercihleri hatırlamak için (Firebase Authentication).</li>
+                        <li><strong>Masal Tercihleri:</strong> Seçtiğiniz karakterler, mekanlar, duygular ve konular. Bu veriler kişisel bilgi içermez.</li>
+                        <li><strong>Uygulama İçi Favoriler:</strong> Beğendiğiniz masalları cihazınızda veya bulutta saklamak için.</li>
+                        <li><strong>Teknik Loglar:</strong> Uygulamanın güvenliği ve performansı için standart sunucu kayıtları.</li>
+                    </ul>
+                    <div class="highlight-box info">
+                        <strong>Bilgi:</strong> Toplanan veriler masal oluşturma sürecini yönetmek ve sesli anlatım (Text-to-Speech) özelliğini sağlamak içindir.
+                    </div>
+                </section>
+
+                <section>
+                    <h2>👶 Çocuklar İçin Güvenlik</h2>
+                    <div class="highlight-box info">
+                        <strong>Önemli:</strong> Bu uygulama çocuklara yönelik tasarlanmıştır ve kişisel verilerinizi (ad, soyad, fotoğraf, adres vb.) <strong>ASLA</strong> talep etmez.
+                    </div>
+                    <p>Oluşturulan masallar tamamen kurgusal olup, girilen parametrelere göre yapay zeka tarafından güvenli bir şekilde üretilir. Ebeveyn gözetimi her zaman önerilir.</p>
+                </section>
+
+                <section>
+                    <h2>☁️ Üçüncü Taraf Hizmetleri</h2>
+                    <p>Masal üretimi ve seslendirme için güvenilir Google servisleri kullanılır:</p>
+                    <ul>
+                        <li>Google Firebase (Kimlik doğrulama ve veritabanı)</li>
+                        <li>Google Cloud (Metin üretimi ve Text-to-Speech)</li>
+                    </ul>
+                    <p>Tüm veri iletişimi <strong>TLS (Transport Layer Security)</strong> teknolojisi ile şifrelenerek korunur.</p>
+                </section>
+
+                <section>
+                    <h2>🚫 Reklamlar</h2>
+                    <p>Masal Atölyesi'nde <strong>reklam bulunmamaktadır</strong>. Çocuğunuzun deneyimini bölecek veya izleyecek hiçbir reklam ağı kullanılmaz.</p>
+                </section>
+
+                <section>
+                    <h2>🔐 Verilerin Saklanması ve Silinmesi</h2>
+                    <p>Veriler, Google'ın güvenli sunucularında minimum süreyle saklanır.</p>
+                    <ul>
+                        <li>Uygulama içerisindeki "Verileri Sil" veya "Hesabı Sil" seçeneği ile tüm geçmişinizi sıfırlayabilirsiniz.</li>
+                        <li>Ayrıca <a href="mailto:smtrlsn84@gmail.com">smtrlsn84@gmail.com</a> adresine e-posta göndererek veri silme talebinde bulunabilirsiniz.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>📧 İletişim</h2>
+                    <div class="contact-box">
+                        Her türlü soru ve öneriniz için:<br>
+                        <a href="mailto:smtrlsn84@gmail.com">smtrlsn84@gmail.com</a>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>✅ Kabul</h2>
+                    <p>Masal Atölyesi uygulamasını kullanarak bu şartları kabul etmiş sayılırsınız.</p>
+                </section>
+            </div>
         </main>
         
         <footer>
             <p>© 2026 Samet Arslan. Tüm hakları saklıdır.</p>
         </footer>
     </div>
+
+    <script>
+        function getApp() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('app');
+        }
+
+        function showApp(app) {
+            const ilacContent = document.getElementById('content-ilac');
+            const masalContent = document.getElementById('content-masal');
+            const selector = document.getElementById('app-selector');
+            const headerDesc = document.getElementById('header-desc');
+
+            // Reset visibility
+            ilacContent.classList.add('hidden');
+            masalContent.classList.add('hidden');
+            selector.classList.add('hidden');
+
+            if (app === 'ilac') {
+                ilacContent.classList.remove('hidden');
+                headerDesc.textContent = "Bu sayfa, İlaç Saatim ve Hızlı Egzersiz uygulamaları için geçerli olan Gizlilik Politikası ve Kullanım Koşullarını içermektedir.";
+            } else if (app === 'masal') {
+                masalContent.classList.remove('hidden');
+                headerDesc.textContent = "Bu sayfa, Masal Atölyesi uygulaması için geçerli olan Gizlilik Politikası ve Kullanım Koşullarını içermektedir.";
+            } else {
+                // No app selected, show selector
+                selector.classList.remove('hidden');
+                headerDesc.textContent = "Lütfen görüntülemek istediğiniz uygulamayı seçiniz.";
+            }
+        }
+
+        function selectApp(app) {
+            // Reload with query param
+            window.location.search = '?app=' + app;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const app = getApp();
+            showApp(app);
+        });
+    </script>
 </body>
 </html>
